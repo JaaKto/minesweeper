@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,700');
+
+body {
+  background: #F0F8EA;
+  font-family: 'Quicksand', sans-serif;
+}
+
+h3 {
+  color: #282c34;
+  display: flex;
+  width: 901px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+canvas {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
