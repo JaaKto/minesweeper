@@ -5,6 +5,7 @@ function Cell(i, j, w) {
   this.y = j * w;
   this.w = w;
   this.neighborCount = 0;
+  this.neighborFlag = 0;
 
   this.bomb = false;
   this.revealed = false;
@@ -54,6 +55,7 @@ Cell.prototype.countBombs = function() {
         var neighbor = grid[i][j];
         if (neighbor.bomb) {
           total++;
+
         }
       }
     }
@@ -75,8 +77,29 @@ Cell.prototype.flag = function(){
     this.flaged = true;
     bombCounter--
     bombs.innerText = bombCounter;
+    for (var xoff = -1; xoff <= 1; xoff++) {
+      for (var yoff = -1; yoff <= 1; yoff++) {
+        var i = this.i + xoff;
+        var j = this.j + yoff;
+        if (i > -1 && i < cols && j > -1 && j < rows) {
+          var neighbor = grid[i][j];
+          neighbor.neighborFlag++
+        }
+      }
+    }
   } else if(this.flaged){
     this.flaged = false;
+    bombCounter++
+    bombs.innerText = bombCounter;
+    for (var xoff = -1; xoff <= 1; xoff++) {
+      for (var yoff = -1; yoff <= 1; yoff++) {
+        var i = this.i + xoff;
+        var j = this.j + yoff;
+        if (i > -1 && i < cols && j > -1 && j < rows) {
+          grid[i][j].neighborFlag--
+        }
+      }
+    }
   }
 }
 
@@ -172,10 +195,30 @@ document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 }, false);
 
+
+function doubleClicked(){
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      if (grid[i][j].contains(mouseX, mouseY) && grid[i][j].revealed && grid[i][j].neighborCount == grid[i][j].neighborFlag) {
+        for (let x = -1; x<2; x++){
+          for (let y = -1; y<2; y++){
+            if( i + x > -1 && i + x < cols && j + y > -1 && j + y < rows) {
+              grid[i+x][j+y].reveal();
+              if (grid[i+x][j+y].bomb && !grid[i+x][j+y].flaged){
+                gameOver();
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 function mousePressed() {
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
-      if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT) {
+      if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT && !grid[i][j].revealed) {
         grid[i][j].reveal();
         if (grid[i][j].bomb) {
           gameOver();

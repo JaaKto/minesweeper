@@ -12,6 +12,15 @@ h3 {
   margin: 0 auto;
   justify-content: space-between;
 }
+
+span {
+  min-width: 100px;
+}
+
+h3 span:last-of-type {
+  text-align: right;
+}
+
 canvas {
   padding-left: 0;
   padding-right: 0;
