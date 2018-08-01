@@ -218,13 +218,24 @@ function doubleClicked(){
 function mousePressed() {
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
-      if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT && !grid[i][j].revealed) {
-        grid[i][j].reveal();
-        if (grid[i][j].bomb) {
-          gameOver();
+      if (grid.every((item) => item.every((i) => (!i.revealed)))) {
+        if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT && !grid[i][j].bomb) {
+          grid[i][j].reveal();
+          if (grid[i][j].bomb) {
+            gameOver();
+          }
+        } else if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == RIGHT) {
+          grid[i][j].flag()
         }
-      } else if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == RIGHT) {
-        grid[i][j].flag()
+      } else {
+        if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT) {
+          grid[i][j].reveal();
+          if (grid[i][j].bomb) {
+            gameOver();
+          }
+        } else if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == RIGHT) {
+          grid[i][j].flag()
+        }
       }
     }
   }
