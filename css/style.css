@@ -28,3 +28,11 @@ canvas {
   margin-right: auto;
   display: block;
 }
+
+.options {
+    position: absolute;
+}
+
+input[type="text"] {
+    width: 50px;
+}

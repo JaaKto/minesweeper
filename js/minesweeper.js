@@ -66,17 +66,19 @@ Cell.prototype.countBombs = function() {
 Cell.prototype.reveal = function(){
   if(!this.flaged){
     this.revealed = true;
+    revealed++
     if (this.neighborCount == 0) {
       this.floodFill();
     }
   }
 }
-bombCounter = 100;
+
+// bombCounter = totalBombs;
 Cell.prototype.flag = function(){
   if(!this.flaged && !this.revealed){
     this.flaged = true;
-    bombCounter--
-    bombs.innerText = bombCounter;
+    totalBombs--
+    bombs.innerText = totalBombs;
     for (var xoff = -1; xoff <= 1; xoff++) {
       for (var yoff = -1; yoff <= 1; yoff++) {
         var i = this.i + xoff;
@@ -89,8 +91,8 @@ Cell.prototype.flag = function(){
     }
   } else if(this.flaged){
     this.flaged = false;
-    bombCounter++
-    bombs.innerText = bombCounter;
+    totalBombs++
+    bombs.innerText = totalBombs;
     for (var xoff = -1; xoff <= 1; xoff++) {
       for (var yoff = -1; yoff <= 1; yoff++) {
         var i = this.i + xoff;
@@ -130,12 +132,41 @@ var grid;
 var cols;
 var rows;
 var w = 30;
-var totalBombs = 100;
+var totalBombs;
+var allBombs;
+var firstClick = true;
+var revealed = 0;
+var time = true;
 
 function setup() {
-  createCanvas(901, 601);
-  cols = floor(width / w);
-  rows = floor(height / w);
+  revealed = 0
+  firstClick = true;
+  time = true;
+  reset();
+  timer.innerText = '0';
+
+  if (document.querySelector('input[name="field"]:checked').id == 'beginner') {
+    cols = 9;
+    rows = 9;
+    totalBombs = 10;
+    allBombs = 10;
+  } else if (document.querySelector('input[name="field"]:checked').id == 'intermediate') {
+    cols = 16;
+    rows = 16;
+    totalBombs = 40;
+    allBombs = 40;
+  } else if (document.querySelector('input[name="field"]:checked').id == 'expert') {
+    cols = 30;
+    rows = 16;
+    totalBombs = 99;
+    allBombs= 99;
+  } else {
+    cols = parseInt(document.getElementById('custom_cols').value);
+    rows = parseInt(document.getElementById('custom_rows').value);
+    totalBombs = parseInt(document.getElementById('custom_bombs').value);
+    allBombs = parseInt(document.getElementById('custom_bombs').value);
+  }
+  createCanvas((cols*w)+1, (rows*w)+1);
   grid = make2DArray(cols, rows);
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
@@ -165,18 +196,8 @@ function setup() {
     }
   }
 
-  let counter = 0;
-  let timer = document.getElementById('timer');
-  timer.innerText = '0';
-
-  function timeIt(){
-    counter++;
-    timer.innerText = counter;
-  }
-  setInterval(timeIt, 1000);
-
   var bombs = document.getElementById('bombs');
-  bombs.innerText = bombCounter;
+  bombs.innerText = totalBombs;
 
 }
 
@@ -188,13 +209,44 @@ function gameOver() {
   }
   var status = document.getElementById("status");
   status.innerText = "Game over :("
+  stop()
+}
 
+function gameWon() {
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      grid[i][j].revealed = !grid[i][j].bomb;
+    }
+  }
+  var status = document.getElementById("status");
+  status.innerText = "Won :)"
+  stop()
 }
 
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 }, false);
 
+let timerId;
+function tick() {
+  var counter = 0;
+  var timer = document.getElementById('timer');
+  timer.innerText = '0';
+
+    function timeIt(){
+      counter++;
+      timer.innerText = counter;
+    }
+    timerId = setInterval(timeIt, 1000);
+}
+
+function stop() {
+  clearInterval(timerId)
+}
+
+function reset() {
+  counter = 0;
+}
 
 function doubleClicked(){
   for (let i = 0; i < cols; i++) {
@@ -216,22 +268,40 @@ function doubleClicked(){
 }
 
 function mousePressed() {
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      if (grid.every((item) => item.every((i) => (!i.revealed)))) {
-        if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT && !grid[i][j].bomb) {
-          grid[i][j].reveal();
-          if (grid[i][j].bomb) {
-            gameOver();
-          }
-        } else if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == RIGHT) {
-          grid[i][j].flag()
+  if (firstClick) {
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        if (time && grid[i][j].contains(mouseX, mouseY)) {
+           tick();
+           time = false;
         }
-      } else {
+        if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT && !grid[i][j].flaged) {
+          do {
+            setup();
+          }
+          while (grid[i][j].bomb);
+          grid[i][j].reveal();
+          firstClick = false;
+          if (grid[i][j].revealed) {
+            if (cols*rows-allBombs == revealed) {
+              gameWon();
+            }
+          }
+        }
+      }
+    }
+  } else {
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
         if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT) {
           grid[i][j].reveal();
           if (grid[i][j].bomb) {
             gameOver();
+          }
+          if (grid[i][j].revealed) {
+            if (cols*rows-allBombs == revealed) {
+              gameWon();
+            }
           }
         } else if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == RIGHT) {
           grid[i][j].flag()
