@@ -9,16 +9,8 @@ h3 {
   color: #282c34;
   display: flex;
   width: 901px;
-  margin: 0 auto;
+  margin: 10px auto;
   justify-content: space-between;
-}
-
-span {
-  min-width: 100px;
-}
-
-h3 span:last-of-type {
-  text-align: right;
 }
 
 canvas {
@@ -30,9 +22,10 @@ canvas {
 }
 
 .options {
-    position: absolute;
+  position: absolute;
+  top: 10px;
 }
 
 input[type="text"] {
-    width: 50px;
+  width: 50px;
 }

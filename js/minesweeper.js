@@ -128,6 +128,49 @@ function make2DArray(cols, rows) {
   return arr;
 }
 
+var timerId;
+var counter = 0;
+function tick() {
+  clearInterval(timerId)
+  var timer = document.getElementById('timer');
+  timer.innerText = '0';
+  function timeIt(){
+    counter++;
+    timer.innerText = counter;
+  }
+  timerId = setInterval(timeIt, 1000);
+}
+
+function stop() {
+  clearInterval(timerId)
+}
+
+function reset() {
+  counter = 0;
+}
+
+function gameOver() {
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      grid[i][j].revealed = true;
+    }
+  }
+  var status = document.getElementById("status");
+  status.innerText = "Game over :("
+  stop();
+}
+
+function gameWon() {
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      grid[i][j].revealed = !grid[i][j].bomb;
+    }
+  }
+  var status = document.getElementById("status");
+  status.innerText = "Won :)"
+  stop();
+}
+
 var grid;
 var cols;
 var rows;
@@ -136,14 +179,14 @@ var totalBombs;
 var allBombs;
 var firstClick = true;
 var revealed = 0;
-var time = true;
+var gameStats = document.getElementsByTagName('h3')
 
 function setup() {
+  let status = document.getElementById("status");
+  status.innerText = " "
   revealed = 0
   firstClick = true;
-  time = true;
   reset();
-  timer.innerText = '0';
 
   if (document.querySelector('input[name="field"]:checked').id == 'beginner') {
     cols = 9;
@@ -155,6 +198,7 @@ function setup() {
     rows = 16;
     totalBombs = 40;
     allBombs = 40;
+    gameStats['0'].style.width = 271 + 'px';
   } else if (document.querySelector('input[name="field"]:checked').id == 'expert') {
     cols = 30;
     rows = 16;
@@ -166,6 +210,7 @@ function setup() {
     totalBombs = parseInt(document.getElementById('custom_bombs').value);
     allBombs = parseInt(document.getElementById('custom_bombs').value);
   }
+  gameStats['0'].style.width = (cols*30+1) + 'px';
   createCanvas((cols*w)+1, (rows*w)+1);
   grid = make2DArray(cols, rows);
   for (let i = 0; i < cols; i++) {
@@ -201,52 +246,13 @@ function setup() {
 
 }
 
-function gameOver() {
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      grid[i][j].revealed = true;
-    }
-  }
-  var status = document.getElementById("status");
-  status.innerText = "Game over :("
-  stop()
-}
 
-function gameWon() {
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      grid[i][j].revealed = !grid[i][j].bomb;
-    }
-  }
-  var status = document.getElementById("status");
-  status.innerText = "Won :)"
-  stop()
-}
 
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 }, false);
 
-let timerId;
-function tick() {
-  var counter = 0;
-  var timer = document.getElementById('timer');
-  timer.innerText = '0';
 
-    function timeIt(){
-      counter++;
-      timer.innerText = counter;
-    }
-    timerId = setInterval(timeIt, 1000);
-}
-
-function stop() {
-  clearInterval(timerId)
-}
-
-function reset() {
-  counter = 0;
-}
 
 function doubleClicked(){
   for (let i = 0; i < cols; i++) {
@@ -271,9 +277,8 @@ function mousePressed() {
   if (firstClick) {
     for (let i = 0; i < cols; i++) {
       for (let j = 0; j < rows; j++) {
-        if (time && grid[i][j].contains(mouseX, mouseY)) {
+        if (grid[i][j].contains(mouseX, mouseY)) {
            tick();
-           time = false;
         }
         if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT && !grid[i][j].flaged) {
           do {
