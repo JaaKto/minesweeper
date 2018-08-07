@@ -246,13 +246,9 @@ function setup() {
 
 }
 
-
-
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 }, false);
-
-
 
 function doubleClicked(){
   for (let i = 0; i < cols; i++) {
@@ -298,7 +294,7 @@ function mousePressed() {
   } else {
     for (let i = 0; i < cols; i++) {
       for (let j = 0; j < rows; j++) {
-        if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT) {
+        if (grid[i][j].contains(mouseX, mouseY)&& mouseButton == LEFT && !grid[i][j].flaged) {
           grid[i][j].reveal();
           if (grid[i][j].bomb) {
             gameOver();
