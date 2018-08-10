@@ -1,6 +1,6 @@
 ## Minesweeper
 
-This minesweeper game written in in JavaScript with the p5.js library.
+minesweeper game written in in JavaScript with the p5.js library
 
 In order to run a development or production build:
 
