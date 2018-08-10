@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="js/minesweeper.js"></script>
-    <link rel="stylesheet" href="css/style.css">
     <meta charset="utf-8">
     <title></title>
   </head>
@@ -10,13 +8,12 @@
     <header>
     </header>
     <div class="wrapper">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.min.js"></script>
     </div>
     <h3><span id='bombs'></span><span id='status'></span><span id='timer'>0</span></h3>
     <div class="options">
       <table>
         <tr>
-          <td><input type="submit" value="New Game" onclick="stop();setup()"></td>
+          <td><input type="submit" value="New Game" id="newGame"></td>
           <td>Width</td>
           <td>Height</td>
           <td>Mines</td>
@@ -40,12 +37,17 @@
           <td>99</td>
         </tr>
         <tr>
-          <td><label><input type="radio" name="field" id="custom">Custom</label></td>
+          <td><label><input type="radio" name="field" id="custom"> Custom</label></td>
           <td><input type="text" value="20" id="custom_rows"></td>
           <td><input type="text" value="30" id="custom_cols"></td>
           <td><input type="text" value="145" id="custom_bombs"></td>
         </tr>
       </table>
+      <div class="scores">
+        <ol id='Beginner'><b>Beginner</b></ol>
+        <ol id='Intermediate'><b>Intermediate</b></ol>
+        <ol id='Expert'><b>Expert</b></ol>
+      </div>
     </div>
   </body>
 </html>

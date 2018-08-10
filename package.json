@@ -1,0 +1,36 @@
+{
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --history-api-fallback --inline --progress --hot --mode development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjablecki-neducatio/minesweeper.git"
+  },
+  "author": "Jakub Jabecki <jjablecki@n-educatio.pl>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jjablecki-neducatio/minesweeper/issues"
+  },
+  "homepage": "https://github.com/jjablecki-neducatio/minesweeper#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "css-loader": "^1.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.9.3",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.22.1",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
+  },
+  "dependencies": {
+    "p5": "^0.6.1"
+  }
+}
