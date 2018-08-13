@@ -35,6 +35,7 @@ function reset() {
 p5.setup = () => {
   let newGame = document.getElementById("newGame")
   newGame.addEventListener("click", p5.setup);
+  newGame.addEventListener("click", () => stop());
 
   let radio;
   function checkRadio() {
@@ -138,8 +139,8 @@ const newScore = () => {
   if (name != null){
     console.log(`${result} - ${name} - ${lvl}`);
   }
-  var blebleble = {item: name, score: result, diff:lvl}
-  console.log(blebleble);
+  let new_score = {item: name, score: result, diff:lvl}
+  console.log(new_score);
   fetch(`http://todo-lidia.fatco.de/todo/`, {
     method: 'POST',
     body: JSON.stringify({item: name, score: result, diff:lvl})
