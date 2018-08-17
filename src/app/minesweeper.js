@@ -37,7 +37,6 @@ p5.setup = () => {
   newGame.addEventListener("click", p5.setup);
   newGame.addEventListener("click", () => stop());
 
-  let radio;
   function checkRadio() {
     let radio = document.getElementsByName('field')
     for (let i = 0; i < radio.length; i++){
@@ -45,27 +44,27 @@ p5.setup = () => {
       radio[i].addEventListener('click', () => stop());
     }
   }
-  checkRadio()
+  checkRadio();
 
   let status = document.getElementById("status");
-  status.innerText = " "
-  revealed = 0
+  status.innerText = " ";
+  revealed = 0;
   firstClick = true;
   reset();
 
-  if (document.querySelector('input[name="field"]:checked').id == 'beginner') {
+  if (document.querySelector('input[name="field"]:checked').id === 'beginner') {
     cols = 9;
     rows = 9;
     totalBombs = 10;
     allBombs = 10;
     // p5.setup()
-  } else if (document.querySelector('input[name="field"]:checked').id == 'intermediate') {
+  } else if (document.querySelector('input[name="field"]:checked').id === 'intermediate') {
     cols = 16;
     rows = 16;
     totalBombs = 40;
     allBombs = 40;
     gameStats['0'].style.width = 271 + 'px';
-  } else if (document.querySelector('input[name="field"]:checked').id == 'expert') {
+  } else if (document.querySelector('input[name="field"]:checked').id === 'expert') {
     cols = 30;
     rows = 16;
     totalBombs = 99;
@@ -122,7 +121,7 @@ p5.setup = () => {
 
   var bombs = document.getElementById('bombs');
   bombs.innerText = totalBombs;
-}
+};
 
 const create = (score) => {
   let item = document.createElement('li');
@@ -133,7 +132,7 @@ const create = (score) => {
 
 
 const newScore = () => {
-  name = prompt("What's your name", "lubię placki");
+  let name = prompt("What's your name", "lubię placki");
   let result = counter;
   let lvl = document.querySelector('input[name="field"]:checked').id
   if (name != null){
@@ -298,14 +297,12 @@ function gameWon() {
     }
   }
   var status = document.getElementById("status");
-  status.innerText = "Won :)"
+  status.innerText = "Won :)";
   stop();
   newScore();
 }
 
-
-
-document.addEventListener("contextmenu", function (e) {
+document.addEventListener('contextmenu', function (e) {
   e.preventDefault();
 }, false);
 
@@ -335,9 +332,6 @@ p5.mousePressed = () => {
   if (firstClick) {
     for (let i = 0; i < cols; i++) {
       for (let j = 0; j < rows; j++) {
-        if (grid[i][j].contains(p5.mouseX, p5.mouseY)) {
-           tick();
-        }
         if (grid[i][j].contains(p5.mouseX, p5.mouseY)&& p5.mouseButton == p5.LEFT && !grid[i][j].flaged) {
           do {
             p5.setup();
@@ -345,6 +339,7 @@ p5.mousePressed = () => {
           while (grid[i][j].bomb);
           grid[i][j].reveal();
           firstClick = false;
+          tick();
           if (grid[i][j].revealed) {
             if (cols*rows-allBombs == revealed) {
               gameWon();
@@ -368,12 +363,12 @@ p5.mousePressed = () => {
             }
           }
         } else if (grid[i][j].contains(p5.mouseX, p5.mouseY)&& p5.mouseButton === p5.RIGHT) {
-          grid[i][j].flag()
+          grid[i][j].flag();
         }
       }
     }
   }
-}
+};
 
 p5.draw = () => {
   p5.background(90);
