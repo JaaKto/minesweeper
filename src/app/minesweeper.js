@@ -123,31 +123,31 @@ p5.setup = () => {
   bombs.innerText = totalBombs;
 };
 
-const create = (score) => {
-  let item = document.createElement('li');
-  item.innerText = `${score.score} - ${score.item} - ${score.lvl}`;
-  item.setAttribute('data-id', score.id);
-  listItem.push(item);
-};
+// const create = (score) => {
+//   let item = document.createElement('li');
+//   item.innerText = `${score.score} - ${score.item} - ${score.lvl}`;
+//   item.setAttribute('data-id', score.id);
+//   listItem.push(item);
+// };
 
 
-const newScore = () => {
-  let name = prompt("What's your name", "lubię placki");
-  let result = counter;
-  let lvl = document.querySelector('input[name="field"]:checked').id
-  if (name != null){
-    console.log(`${result} - ${name} - ${lvl}`);
-  }
-  let new_score = {item: name, score: result, diff:lvl}
-  console.log(new_score);
-  fetch(`http://todo-lidia.fatco.de/todo/`, {
-    method: 'POST',
-    body: JSON.stringify({item: name, score: result, diff:lvl})
-  })
-    .then(todo => todo.json().then(result => create(result)))
-    .catch(err => console.log(err))
-    location.reload();
-}
+// const newScore = () => {
+//   let name = prompt("What's your name", "lubię placki");
+//   let result = counter;
+//   let lvl = document.querySelector('input[name="field"]:checked').id
+//   if (name != null){
+//     console.log(`${result} - ${name} - ${lvl}`);
+//   }
+//   let new_score = {item: name, score: result, diff:lvl}
+//   console.log(new_score);
+//   fetch(`http://todo-lidia.fatco.de/todo/`, {
+//     method: 'POST',
+//     body: JSON.stringify({item: name, score: result, diff:lvl})
+//   })
+//     .then(todo => todo.json().then(result => create(result)))
+//     .catch(err => console.log(err))
+//     location.reload();
+// }
 
 function Cell(i, j, w) {
   this.i = i;
