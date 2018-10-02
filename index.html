@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  <link href="main.css" rel="stylesheet"></head>
+  <body>
+    <header>
+    </header>
+    <div class="wrapper">
+    </div>
+    <h3><span id='bombs'></span><span id='status'></span><span id='timer'>0</span></h3>
+    <div class="options">
+      <table>
+        <tr>
+          <td><input type="submit" value="New Game" id="newGame"></td>
+          <td>Width</td>
+          <td>Height</td>
+          <td>Mines</td>
+        </tr>
+        <tr>
+          <td><label><input type="radio" name="field" id="beginner"> <strong>Beginner</strong></label></td>
+          <td>9</td>
+          <td>9</td>
+          <td>10</td>
+        </tr>
+        <tr>
+          <td><label><input type="radio" name="field" id="intermediate"> <strong>Intermediate</strong></label></td>
+          <td>16</td>
+          <td>16</td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td><label><input type="radio" name="field" checked="checked" id="expert"> <strong>Expert</strong></label></td>
+          <td>16</td>
+          <td>30</td>
+          <td>99</td>
+        </tr>
+        <tr>
+          <td><label><input type="radio" name="field" id="custom"> Custom</label></td>
+          <td><input type="text" value="20" id="custom_rows"></td>
+          <td><input type="text" value="30" id="custom_cols"></td>
+          <td><input type="text" value="145" id="custom_bombs"></td>
+        </tr>
+      </table>
+      <div class="scores">
+        <ol id='Beginner'><b>Beginner</b></ol>
+        <ol id='Intermediate'><b>Intermediate</b></ol>
+        <ol id='Expert'><b>Expert</b></ol>
+      </div>
+    </div>
+  <script type="text/javascript" src="bundle.js"></script></body>
+</html>
